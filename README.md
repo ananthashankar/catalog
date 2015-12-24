@@ -1,9 +1,9 @@
     1. IP Address and SSH Port:
-     - IP Address: 127.0.0.1
+     - IP Address: 52.33.117.46
      - SSH Port: 2200
 
     2. Complete URL:
-     - http://localhost:8080/
+     - http://52.33.117.46/
 
     3. Summary of software installed and configuration changes:
 
@@ -15,7 +15,7 @@
         - sudo apt-get autoremove - remove unwanted packages
 
      - Adding New User Grader
-      - sudo adduser grader
+      - sudo adduser grader (password - grader)
       
      - For Key Login
       - ssh grader@127.0.0.1 -p 2200  -i ~/.ssh/Ubuntu_Linux_Web_Server
@@ -118,15 +118,18 @@
          sudo pip install virtualenv
          sudo virtualenv venv
          source venv/bin/activate
-         pip install Flask
+         sudo pip install flask-seasurf
+         sudo apt-get install libpq-dev python-dev
+         sudo pip install python-psycopg2
+         sudo pip install Flask
          python __init__.py
          deactivate
          sudo nano /etc/apache2/sites-available/catalog.conf
          Paste:
     	  <VirtualHost *:80>
-    	      ServerName 127.0.0.1
-    	      ServerAdmin admin@127.0.0.1
-    	      ServerAlias localhost
+    	      ServerName 52.33.117.46
+    	      ServerAdmin admin@52.33.117.46
+    	      ServerAlias ec2-52-33-117-46.us-west-2.compute.amazonaws.com
     	      WSGIScriptAlias / /var/www/catalog/catalog.wsgi
     	      <Directory /var/www/catalog/catalog/>
     	          Order allow,deny
@@ -152,7 +155,8 @@
     	  logging.basicConfig(stream=sys.stderr)
     	  sys.path.insert(0,"/var/www/catalog/")
 
-    	  from catalog import app as ‘super_secret_key’
+    	  from catalog import app as application
+          application.secret_key = 'Add your secret key'
         sudo service apache2 restart
 
     - Cloning the catalog app from the github
@@ -222,37 +226,33 @@
 
     4. RSA file content
 
-    -----BEGIN RSA PRIVATE KEY-----
-    Proc-Type: 4,ENCRYPTED
-    DEK-Info: AES-128-CBC,2D1BE19DB5A5EA6B2ABF919A03290785
-
-    SxaL4TwGYgBO6gnVh8SjN+mas1b1OzB7YkqpkzLwkKlNe1o8DcN313ZcgsdQ0ca6
-    JM1zhjRUv3NDyHluPzs98vcYIdhbhl9izu6uIeuGeEPuzPDQt/hlatfKp+tF/xOE
-    voheyCQ3JhkIpTA0c7578BK8pUXH6AbKTlgLUGLBnPaydKoqExO87ImQxrFegCNx
-    AtBUzMQLrE3iXJ1sltw+02H8+dubXXycedZusXhsBJ/0pFEExTbv1Cumy4meICaZ
-    Jel+o27Bylclwccow/v8scOuKO7uyBnB8HX71BTrYy/mDEpmFxk7IW5cM6v2IRl2
-    fmsGTVI8u1hm4CMuzc3AYujfY7EiM57S9RZvezXawWcwIj1dQj6D0ZveW/yng+6N
-    Bl5n7CAkHI7qdsLg6RMoayQQy22+ysPvYdI4MZJx/OmRcZNYJVGuuQYQJ4b+orW9
-    bzUeS+wk/c2/UOcNKDGJCBX63/ePkd+GDfk4auVUZk2LfqWJWGRaWId+nBfNbetW
-    1YhzLy0Oc/znPlwZi6JROWYUiB3cbNZSj3k+PqGxnT25MrfLGmM7Sc96Q1n7YBgb
-    H/3P3sIRUF0uqHs4+UFLTDfATLw6jFiN3LoQMKwrjuUWUJbQnpZtqc0EEEWWnW0q
-    OZZJcrt7+9tlLq6uRPcbyKACHTa/gffK/bI5XNgPu8cGQ/NhVE5AyuOTemecUzK1
-    a7JmjNE8YXxP1OM8z+oYYFAk8sn7NewmxI/hQ/l5y+Yt81XYEO/8UQM+u5CwJ4rJ
-    xSUacyIbc+dgOcpEtEkwdHpJyV2R2E+OKpMXJ3cNPYC8azCGSbEmhbBFPAGwOnJ8
-    rXlaVIHAknSVo+qYiCZXzkf66yOKAP8fvkKtEpSVI9g1BDAO92WazZcIdWEzwB+P
-    ORqUwqj+Y5G8iJKrPZpMuEX2pysLE+SFL7OnNFdNKzhPJ7UwQQ3qgfRs3GGh+NiP
-    vYvpijSJpUKrkVPg2RdMDVHjAy7lDfstTAQCPyKoLvlzYCAHzHPJxO5Hd5136iHU
-    7ROsX5HGOie+iTEsAXfbsciJXCw44VZ+EJYM0ZQr5iZF4qCzzcNZ9pWe+BdB+sNJ
-    JrARBu39kftnCKisS8gUxLCxBU//QcyjMUf57JGQ+/VAHp8NIEYT9t3o4h1/AyQx
-    qVfFCZ2Ce/qLR+Ik40YtCXdAlhnAXlmtAgZO1HzMzPTM8zhKbwR0txu7fRFVsr7f
-    gvPMDkIhkcLXJTmPExz982L036YUMGgjROpSBAniuueLT0/8xi2I3afTrFUFrRZN
-    YFwfqHqbEzZAsxoAorgEP2phfC7n6Bkm7UKabN0WMRStGvAzRMul9X4PwF1Aae32
-    d9GKUoTQ9PrptAm6JnhNsoEHt0Zyid7PlsLvYn2bGC+9aqNAg0T6RiynkRjInhYq
-    p5DYZFiMx0+l9uP+cv/CRE1Ry+Z+8KBok/3y4ai4042azOBB4F20sU+PX5cr0M6K
-    qWLtUifBXZFY5BOFGvwPyVDK6JBgT0KruUEguoo4kcLJD1nN6ON+rpFlH7Fe5Nyl
-    ti/Bqx1aMrq+eIEg6a32a2upWL8qcf9TkUpOmAqip7Pu33Zo6zrqtwghMAe7Mh0/
-    -----END RSA PRIVATE KEY-----
-
+-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEAzK6fGSF0yQ7D9H8aBS6IOCOsSvLUsCloOtHaAtN90J1Z+cWU
+7UaltlIVNR0vdVJ/S9yPxAa8k1QmuLxXGoqFfjrPeEfqhEr57j6HEvdBvmWZTLIB
+ZmDFW+E5ku+yQmLf8LHwRFUn9WdVAcY9H/dHA2UL6ufet8db8kP6i/WD9QmTdQSq
+eq/rExXlKE/ezBVCXfl+Q53M8PSsi7Lbg1ig8SYT/yfvbTBKXCO/S1UkHW/J6Zwr
+xOw3CuHEMzsu68uxvDE/LJWn2JAu7mioAjlfVbEentRDqxoHwSPEElkvNMRFnbmJ
+TisDxMKj0I5O07DnrpRmAqKXC35S80h+dfty+wIDAQABAoIBAD2BF2Oozvv/iNh2
+PO5jriEYbxRSZaDNwHk0R8tjm8HNFpVcTsUB3perkJ3WOEWL1Z6JF1YzJAUtWzlV
+tuLNzxFAQMmG6qx4DyQM+++yBrpcszT9pDgMSiGyyuchSbJzHZGpFmaiJBC0zTFs
+TT/GwTr+6RbcN+uHZ1SkIqxdyRofDbaP1LUZ+ZKq22qqVckzBXjeZO5zQ4D4GRv3
+hes3x6FOXcW305yzDKK4JLAUdYwnJTwxZ2slIN43zC/MtJD/iXeKzVpN+ctArw5P
+5dxfetSlqKh/9xcDJoL0aNzDf8hpj/atX6qRbi3w+f/JC5OoOdA3QPZoW0KSDSf+
+oi6P2FECgYEA8sRlhNDEX19fffSvkaiicKtdbr82r6JMNghpbONsJ1gx4WqMgcoE
+lTdqVkE9GLUcU7mWecONB12IiVqoLwh7c2XcLIX1jAP8Qm/5NId0XZZyfFtC6IP/
+8Vi7ReFzdBp5xZuHMKpkior+XYQgUXWxbdIgyWzLTarZJsSVAk/ga0kCgYEA19bI
+AE3POVQbuHEn/2hB8fNz/FGjFPwJw3TPZNbjxGv2aA88ru1gY/A1f6feEkoRLAVS
+zPjm6g9h6IZud1GPrNu66aLMniyAIm3V5fM0tZFti5PiRUMFlJfRi2wbCO6e/f89
+y1yJWlwirZVApIGUjHUur45ZXUfghOCxjwjeiCMCgYAzQoDlEGfGc47oO5guu1rB
+S43I6psTbsOEzTXlhge6LwcpP6Q3a36YO0E6wT+zTdqTWyaIw1+t5HQF/Jxygen/
+LczVodt9GwJSzO3jx44sjK3T0DlKe0S5ozC3yqjkJQr9TJ+5COF912dqO5HPYXh7
+ZdkCbvRmi+KaKvwDpvYN8QKBgFh68c4+F38W3a5EpPLs2GvJM3jyNnp5v77iecqK
+1SBGaeLKrEPBh8wwQp4sQLsapeN34zOnrXGyEJ7zzQEY7F8eTIdOd7c34uc6Q39a
+rfbowRGA9DcUfIsnmX0gOgz1VTQmmDxvmNb0AjtKfg9yF2Vk/Fh3cGbu+jk+q0tJ
+hYAlAoGBANeZMquXbnshgOOf07n1JAAM20I8chZHAplmcMmxpFH+sr2vHFXtCB3G
+1y39g9MFkf1zvuwyn2+nlnULUu+MVdd8ArJ+YzQUURUwbv9bOgoa9Kl5DuNsd62W
+qkJeT2IRAS2/6gFxXQRrZWxdTi/K/4dfr1tsjXO4LWMsBvvrnH9m
+-----END RSA PRIVATE KEY-----
 
 
 
