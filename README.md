@@ -13,6 +13,10 @@
         - sudo apt-get upgrade - update packages
         - man apt-get - important
         - sudo apt-get autoremove - remove unwanted packages
+        Install the unattended-upgrades package:
+        - sudo apt-get install unattended-upgrades
+        Enable the unattended-upgrades package:
+        - sudo dpkg-reconfigure -plow unattended-upgrades
 
      - Adding New User Grader
       - sudo adduser grader (password - grader)
